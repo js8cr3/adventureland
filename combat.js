@@ -1,6 +1,6 @@
 const adventurelandUtils = require_code('adventurelandUtils');
 const getNearestMonsterInsideBoundary = adventurelandUtils.getNearestMonsterInsideBoundary;
-const getAggro = adventurelandUtils.getAggro;
+const getAggressiveMonster = adventurelandUtils.getAggressiveMonster;
 
 module.exports = { misc, mage, priest, warrior, warriorMove };
 
@@ -98,7 +98,7 @@ function warrior() {
 		if(priest.targets <= 1) return;
 		const excludeList = [];
 		if(target) excludeList.push(target.id)
-		const aggro = getAggro([priest.name], excludeList);
+		const aggro = getAggressiveMonster([priest.name], excludeList);
 		if(aggro && can_use('taunt')) use_skill('taunt', aggro);
 	}
 
