@@ -4,6 +4,7 @@ const combat = require_code('combat');
 const adventurelandUtils = require_code('adventurelandUtils');
 const utils = require_code('utils');
 const settings = require_code('settings');
+show_json(settings);
 
 const monsterData = settings.monsterData;
 const getMonsterBoundary = adventurelandUtils.getMonsterBoundary;
@@ -12,7 +13,7 @@ const withinBoundary2D = utils.withinBoundary2D;
 const symbolA = settings.symbolA;
 const gridUnit = settings.gridUnit;
 
-const monsterBoundary = getMonsterBoundary(...monsterData, );
+const monsterBoundary = getMonsterBoundary(...monsterData);
 monsterBoundary[0] -= gridUnit * 2;
 monsterBoundary[2] += gridUnit * 4;
 
