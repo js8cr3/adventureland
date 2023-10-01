@@ -1,7 +1,7 @@
 module.exports = load_fill();
 
 async function load_fill() {
-	const { visitedSymbol, queuedSymbol } = await require('settings');
+	const { visitedSymbol, queuedSymbol } = await require_code('settings');
 	return fill;
 }
 
