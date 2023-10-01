@@ -222,12 +222,14 @@ async function main() {
 
 		switch(currentState) {
 			case 'ready':
-				setInterval( () => {
-					combat.misc();
-				}, 500 ) );
-				setInterval( () => {
-					if(get_player(priestName))character.combatState = 'active';
-				}, 1000) );
+				currentIntervals = [
+					setInterval( () => {
+						combat.misc();
+					}, 500 ),
+					setInterval( () => {
+						if(get_player(priestName))character.combatState = 'active';
+					}, 1000)
+				]
 				break;
 			case 'active':
 				currentIntervals = [
