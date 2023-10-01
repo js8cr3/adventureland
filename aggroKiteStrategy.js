@@ -1,10 +1,10 @@
-module.exports = load_aggroKiteStrategy();
+module.exports = load_manouverStrategies();
 
-async function load_aggroKiteStrategy() {
+async function load_manouverStrategies() {
 
 	const [
 		{ symbolA, symbolB, symbolC, symbolD, pathSymbol, wallSymbol, destSymbol, obstacleSymbol },
-		{ randomNum, withinRange, closestCellToCenter }, 
+		{ randomNum, withinRange, translatePositionToGridCoor, closestCellToCenter }, 
 		fill,
 		bfsGrid
 	] = await Promise.all([
@@ -14,7 +14,10 @@ async function load_aggroKiteStrategy() {
 		require_code('bfsGrid')
 	]);
 
-	return aggroKiteStrategy;
+	return {
+		aggroKiteStrategy,
+		followLeaderStrategy 
+	};
 
 	function aggroKiteStrategy(grid, start, range) {
 
@@ -125,6 +128,103 @@ async function load_aggroKiteStrategy() {
 		} else {
 			return pathfinding();
 		}
+
+	}
+
+	function followLeaderStrategy(grid, start, boundary, gridUnit) {
+
+		// possible values:
+			// 'startType error'
+			// bfs()
+			// 'stuck in obstacle'
+
+		let deep = structuredClone(grid);
+		const startType = deep[start[1]][start[0]]
+		
+		// if stuck, move in random direction
+		
+		if(startType === obstacleSymbol) {
+			return 'stuck in obstacle';
+		}
+
+		// transform grid to be suitable for bfs function
+
+		const transformGrid = () => {
+
+			const symbolTransformList = {};
+			const listKeys = [symbolA, symbolB, symbolC, symbolD];
+			let listValues;
+
+			switch(startType) {
+				case symbolA:
+					listValues = [pathSymbol, pathSymbol, wallSymbol, wallSymbol]
+					break;
+				case symbolB:
+					listValues = [pathSymbol, pathSymbol, wallSymbol, wallSymbol];
+					break;
+				case symbolC:
+					listValues = [destSymbol, destSymbol, pathSymbol, wallSymbol]
+					break;
+				case symbolD:
+					listValues = [destSymbol, destSymbol, destSymbol, pathSymbol]
+			};
+
+			for(let i = 0; i < listKeys.length; i++) {
+				symbolTransformList[ listKeys[i] ] = listValues[i];	
+			}
+				
+			const transformCell = (row, cell, cellIndexInRow) => {
+				for(const symbolToChange in symbolTransformList) {
+					if(cell === symbolToChange) {
+						row[cellIndexInRow] = symbolTransformList[symbolToChange]
+						break;
+					}
+				}
+			}
+
+			for(const row of deep) {
+				for(let i = 0; i < row.length; i++) {
+					transformCell(row, row[i], i);
+				}
+			}
+
+		}
+
+		// pathfinding
+
+		const pathfinding = () => {
+
+			transformGrid();
+
+			const setDestinationToTarget = () => {
+				const follow = get_player('Stool');
+				if(!follow) {
+					return 'target to follow does not exist';
+				}
+				const targetCoor = translatePositionToGridCoor([follow.x, follow.y], boundary, gridUnit);
+				const currentArea = fill(deep, start, pathSymbol);
+				const endCoor = closestCellToTarget(deep, currentArea, targetCoor)
+				deep[endCoor[1]][endCoor[0]] = wallSymbol;
+				for(const cell of currentArea) {
+					if( Math.abs( endCoor[0] - cell[0] ) > 1 ) continue;
+					if( Math.abs( endCoor[1] - cell[1] ) > 1 ) continue;
+					deep[cell[1]][cell[0]] = destSymbol;
+				}
+			}
+
+			if(startType === symbolB || startType === symbolA) {
+				setDestinationToTarget();
+			}
+
+			let pathToDestination = bfs(deep, start);
+			if(pathToDestination === 'no path') return 'no path';
+			//utils.consoleDisplayGrid(deep);
+
+			return pathToDestination;
+
+		};
+
+		return pathfinding();
 
 	}
 

@@ -4,20 +4,16 @@ async function load_manouver() {
 
 	const [
 		createGrid,
-		followLeaderStrategy,
-		aggroKiteStrategy,
+		{ followLeaderStrategy, aggroKiteStrategy },
 		{ transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
 		{ gridUnit, obstacleSymbol, obstacleList, symbolB },
-		adventurelandUtils,
 		transformNodes,
 		drawPathfinding
 	] = await Promise.all( [ 
 		require_code('createGrid'),
-		require_code('followLeaderStrategy'),
-		require_code('aggroKiteStrategy'),
+		require_code('manouverStrategies'),
 		require_code('utils'),
 		require_code('settings'),
-		require_code('adventurelandUtils'),
 		require_code('transformNodes'),
 		require_code('drawPathfinding')
 	] );
