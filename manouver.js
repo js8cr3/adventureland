@@ -1,24 +1,30 @@
-const createGrid = require_code('createGrid');
-const followLeaderStrategy = require_code('followLeaderStrategy');
-const aggroKiteStrategy = require_code('aggroKiteStrategy');
-const utils = require_code('utils');
-const settings = require_code('settings');
-const adventurelandUtils = require_code('adventurelandUtils');
-const transformNodes = require_code('transformNodes');
-const drawPathfinding = require_code('drawPathfinding');
+module.exports = load_manouver;
 
-const gridUnit = settings.gridUnit;
-const obstacleSymbol = settings.obstacleSymbol;
-const obstacleList = settings.obstacleList;
-const symbolB = settings.symbolB;
+async function load_manouver() {
 
-const transformGridPathToCoor = utils.transformGridPathToCoor;
-const translatePositionToGridCoor = utils.translatePositionToGridCoor;
-const markObstacles = utils.markObstacles;
-const consoleDisplayGrid = utils.consoleDisplayGrid;
-const markCorners = utils.markCorners;
+	const [
+		createGrid,
+		followLeaderStrategy,
+		aggroKiteStrategy,
+		{ transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
+		{ gridUnit, obstacleSymbol, obstacleList, symbolB },
+		adventurelandUtils,
+		transformNodes,
+		drawPathfinding
+	] = await Promise.all( [ 
+		require_code('createGrid'),
+		require_code('followLeaderStrategy'),
+		require_code('aggroKiteStrategy'),
+		require_code('utils'),
+		require_code('settings'),
+		require_code('adventurelandUtils'),
+		require_code('transformNodes'),
+		require_code('drawPathfinding')
+	] );
 
-module.exports = manouver;
+	return manouver;
+
+}
 
 function manouver(nodes, boundary, strategyType) {
 

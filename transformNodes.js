@@ -1,7 +1,9 @@
 const settings = require_code('settings');
-const getMonstersByType = require_code('adventurelandUtils').getMonstersByType;
-const withinRange = require_code('utils').withinRange;
+const adventurelandUtils = require_code('adventurelandUtils');
+const utils = require_code('utils')
 
+const getMonstersByType = adventurelandUtils.getMonstersByType;
+const withinRange = utils.withinRange;
 const monsterData = settings.monsterData;
 const gridUnit = settings.gridUnit;
 const symbolA = settings.symbolA;
