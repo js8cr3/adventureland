@@ -13,7 +13,8 @@ const symbolA = settings.symbolA;
 const gridUnit = settings.gridUnit;
 
 log(monsterData);
-const monsterBoundary = getMonsterBoundary(monsterData[0], monsterData[1]);
+//const monsterBoundary = getMonsterBoundary(...monsterData);
+const monsterBoundary = getMonsterBoundary('wolfie', 'winterland');
 monsterBoundary[0] -= gridUnit * 2;
 monsterBoundary[2] += gridUnit * 4;
 
