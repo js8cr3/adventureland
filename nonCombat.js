@@ -3,7 +3,7 @@ module.exports = load_nonCombat();
 async function load_nonCombat() {
 	return {
 		retreatToSafety, 
-		mageHandleDeath, 
+		handleDeath, 
 		nonMageHandleDeath, 
 		teleportToSpot,
 		requestMagiport,
@@ -29,18 +29,11 @@ async function retreatToSafety() {
 
 // rip
 
-async function mageHandleDeath() {
+async function handleDeath() {
 	await new Promise(r => setTimeout(r, 15000));
 	await respawn();
 	character.combatState = 'inactive'
 }
-
-async function nonMageHandleDeath() {
-	await new Promise(r => setTimeout(r, 15000));
-    await respawn();
-	character.combatState = 'inactive';
-}
-
 // inactive
 
 async function teleportToSpot() {
@@ -65,14 +58,6 @@ async function teleportToSpot() {
 }
 
 function requestMagiport(name) {
-	/*
-	parent.socket.on('magiport', data => {
-		log('received magiport invite')
-		log(JSON.stringify(data));
-		if(data.name !== name) return;
-		accept_magiport(name);
-		character.combatState = 'ready';
-	});*/
 	send_cm(name, 'magiport');
 }
 

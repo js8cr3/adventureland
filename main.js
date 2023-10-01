@@ -23,18 +23,26 @@ async function main() {
 	const nodes = initializeNodes(monsterBoundary, gridUnit, symbolA);
 
 	const mageName = 'Desk';
+	const priestName = 'Stool'
+	const partyList = ['Desk', 'Stool', 'Shelf'];
+
+	function on_magiport(name) {
+		if(name !== mageName) return;
+		accept_magiport(name);
+		character.combatState = 'ready';
+	};
+
 
 	if(character.ctype === 'merchant') {
 
-				manouver(nodes, monsterBoundary, 'aggroKiteStrategy') 
+		manouver(nodes, monsterBoundary, 'aggroKiteStrategy') 
 		
 	} else if(character.ctype === 'mage') {
 		
 		mageMain();
 		
 		function on_cm(name, data) {
-			log(name)
-			const partyNameList = ['Stool', 'Shelf'];
+			const partyNameList = partyList;
 			let isPartyMember = false;
 			for(const memberName of partyNameList) {
 				if(name !== memberName) continue;
@@ -48,20 +56,8 @@ async function main() {
 		
 	} else if(character.ctype === 'priest') {
 		priestMain();
-		function on_magiport(name) {
-			log('received magiport invite')
-			if(name !== 'Desk') return;
-			accept_magiport(name);
-			character.combatState = 'ready';
-		};
 	} else if(character.ctype === 'warrior') {
 		warriorMain();
-		function on_magiport(name) {
-			log('received magiport invite')
-			if(name !== 'Desk') return;
-			accept_magiport(name);
-			character.combatState = 'ready';
-		};
 	}
 
 	async function priestMain() {
@@ -73,15 +69,14 @@ async function main() {
 			character.combatState = 'inactive';
 		}
 		while(true) {
-			log(character.combatState)
 			await priestLoop();
 		}
 	}
 
 	async function mageMain() {
-		nonCombat.handleMagiportRequest(['Stool', 'Shelf']);
+		nonCombat.handleMagiportRequest(partyList);
 		if( 
-			get_player('Stool') &&
+			get_player(priestName)&&
 			withinBoundary2D(character, monsterBoundary) 
 		) {
 			character.combatState = 'active';
@@ -91,14 +86,13 @@ async function main() {
 			character.combatState = 'inactive';
 		}
 		while(true) {
-			log('combat: '+character.combatState)
 			await mageLoop();
 		}
 	}
 
 	async function warriorMain() {
 		if( 
-			get_player('Stool') &&
+			get_player(priestName) &&
 			withinBoundary2D(character, monsterBoundary) 
 		) {
 			character.combatState = 'active';
@@ -117,46 +111,51 @@ async function main() {
 	async function mageLoop() {
 
 		const currentState = character.combatState;
-		const currentIntervals = [];
+		let currentIntervals = [];
 
 		switch(currentState) {
 			case 'active':
-				currentIntervals.push( setInterval( () => {
-					if(character.combatState !== currentState) return;
-					if(character.rip) {
-						if(character.rip) character.combatState = 'rip'
-						return;
-					}
-					const priest = get_player('Stool');
-					if(!priest || (priest && priest.rip)) nonCombat.retreatToSafety();
-				}, 333 ) );
-				currentIntervals.push( setInterval( () => { 
-					if(character.combatState !== currentState) return;
-					combat.mage() 
-				}, 100 ) );
-				currentIntervals.push( setInterval( () => { 
-					if(character.combatState !== currentState) return;
-					manouver(nodes, monsterBoundary, 'followLeaderStrategy') 
-				}, 333 ) );
+				currentIntervals = [
+					setInterval( () => {
+						if(character.combatState !== currentState) return;
+						if(character.rip) {
+							if(character.rip) character.combatState = 'rip'
+							return;
+						}
+						const priest = get_player(priestName);
+						if(!priest || (priest && priest.rip)) nonCombat.retreatToSafety();
+					}, 333 ),
+					setInterval( () => { 
+						if(character.combatState !== currentState) return;
+						combat.mage() 
+					}, 100 ),
+					setInterval( () => { 
+						if(character.combatState !== currentState) return;
+						manouver(nodes, monsterBoundary, 'followLeaderStrategy') 
+					}, 333 )
+				]
 				break;
 			case 'ready':
-				currentIntervals.push( setInterval( () => {
-					combat.misc();
-				}, 500 ) );
-				currentIntervals.push( setInterval( () => {
-					if(get_player('Stool')) character.combatState = 'active';
-				}, 1000) );
+				currentIntervals = [
+					setInterval( () => {
+						combat.misc();
+					}, 500 ),
+					setInterval( () => {
+						if(get_player(priestName)) character.combatState = 'active';
+					}, 1000)
+				]
 				break;
 			case 'inactive':
-				currentIntervals.push( setInterval( () => {
-					combat.misc();
-				}, 500 ) );
+				currentIntervals = [
+					setInterval( () => {
+						combat.misc();
+					}, 500 )
+				];
 				await nonCombat.teleportToSpot()
 				character.combatState = 'ready';
 				break;
 			case 'rip':
-				nonCombat.mageHandleDeath();
-				log('rip');
+				nonCombat.handleDeath();
 		}
 
 		while(character.combatState === currentState) {
@@ -172,35 +171,38 @@ async function main() {
 	async function priestLoop() {
 
 		const currentState = character.combatState;
-		const currentIntervals = [];
+		let currentIntervals = [];
 
 		switch(currentState) {
 			case 'ready':
 				character.combatState = 'active';
 				break;
 			case 'active':
-				currentIntervals.push( setInterval( () => {
-					if(character.rip) character.combatState = 'rip'
-				}, 333 ) );
-				currentIntervals.push( setInterval( () => { 
-					combat.priest(monsterBoundary) 
-				}, 100 ) );
-				currentIntervals.push( setInterval( () => { 
-					manouver(nodes, monsterBoundary, 'aggroKiteStrategy') 
-				}, 333 ) );
+				currentIntervals = [ 
+					setInterval( () => {
+						if(character.rip) character.combatState = 'rip'
+					}, 333 ),
+					setInterval( () => { 
+						combat.priest(monsterBoundary) 
+					}, 100 ),
+					setInterval( () => { 
+						manouver(nodes, monsterBoundary, 'aggroKiteStrategy') 
+					}, 333 )
+				]
 				break;
 			case 'inactive':
-				currentIntervals.push( setInterval( () => {
-					combat.misc();
-				}, 500 ) );
+				currentIntervals = [
+					setInterval( () => {
+						combat.misc();
+					}, 500 )
+				]
 				while(character.combatState === 'inactive') {
 					nonCombat.requestMagiport(mageName);
 					await new Promise(r=>setTimeout(r, 10000));
 				}
 				break;
 			case 'rip':
-				nonCombat.nonMageHandleDeath();
-				log('rip');
+				nonCombat.handleDeath();
 		}
 
 		while(character.combatState === currentState) {
@@ -216,46 +218,49 @@ async function main() {
 	async function warriorLoop() {
 
 		const currentState = character.combatState;
-		const currentIntervals = [];
+		let currentIntervals = [];
 
 		switch(currentState) {
 			case 'ready':
-				currentIntervals.push( setInterval( () => {
+				setInterval( () => {
 					combat.misc();
 				}, 500 ) );
-				currentIntervals.push( setInterval( () => {
-					if(get_player('Stool')) character.combatState = 'active';
+				setInterval( () => {
+					if(get_player(priestName))character.combatState = 'active';
 				}, 1000) );
 				break;
 			case 'active':
-				currentIntervals.push( setInterval( () => {
-					if(character.combatState !== currentState) return;
-					if(character.rip) {
-						if(character.rip) character.combatState = 'rip'
-						return;
-					}
-					const priest = get_player('Stool');
-					if(!priest || (priest && priest.rip)) nonCombat.retreatToSafety();
-				}, 333 ) );
-				currentIntervals.push( setInterval( () => { 
-					combat.warrior();
-				}, 100 ) );
-				currentIntervals.push( setInterval( () => { 
-					combat.warriorMove();
-				}, 250 ) );
+				currentIntervals = [
+					setInterval( () => {
+						if(character.combatState !== currentState) return;
+						if(character.rip) {
+							if(character.rip) character.combatState = 'rip'
+							return;
+						}
+						const priest = get_player(priestName);
+						if(!priest || (priest && priest.rip)) nonCombat.retreatToSafety();
+					}, 333), 
+					setInterval( () => { 
+						combat.warrior();
+					}, 100), 
+					setInterval( () => { 
+						combat.warriorMove();
+					}, 250)
+				];
 				break;
 			case 'inactive':
-				currentIntervals.push( setInterval( () => {
-					combat.misc();
-				}, 500 ) );
+				currentIntervals = [
+					setInterval( () => {
+						combat.misc();
+					}, 500 ),
+				]
 				while(character.combatState === 'inactive') {
 					nonCombat.requestMagiport(mageName);
 					await new Promise(r=>setTimeout(r, 10000));
 				}
 				break;
 			case 'rip':
-				nonCombat.nonMageHandleDeath();
-				log('rip');
+				nonCombat.handleDeath();
 		}
 
 		while(character.combatState === currentState) {
