@@ -1,17 +1,21 @@
-const settings = require_code('settings');
-const adventurelandUtils = require_code('adventurelandUtils');
-const utils = require_code('utils')
+module.exports = transformNodes();
 
-const getMonstersByType = adventurelandUtils.getMonstersByType;
-const withinRange = utils.withinRange;
-const monsterData = settings.monsterData;
-const gridUnit = settings.gridUnit;
-const symbolA = settings.symbolA;
-const symbolB = settings.symbolB;
-const symbolC = settings.symbolC;
-const symbolD = settings.symbolD;
+async function load_transformNodes() {
 
-module.exports = transformNodes;
+	const [
+		{ gridUnit, symbolA, symbolB, symbolC, symbolD, monsterData },
+		{ getMonstersByType },
+		{ withinRange }
+	] = await Promise.all([
+		require_code('settings'),
+		require_code('adventurelandUtils'),
+		require_code('utils')
+	]);
+
+	return transformNodes;
+
+}
+
 
 function transformNodes(nodes, monsterBoundary) {
 

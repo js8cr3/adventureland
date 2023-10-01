@@ -33,10 +33,14 @@ const obstacleList = [
 	[16,14],[17,14],[18,14]
 ]
 
-module.exports =  { 
-	gridUnit,
-	monsterData,
-	pathSymbol, wallSymbol, destSymbol, obstacleSymbol, visitedSymbol, queuedSymbol,
-	symbolA, symbolB, symbolC, symbolD,
-	obstacleList
+module.exports = load_settings();
+
+async function load_settings() {
+	return { 
+		gridUnit,
+		monsterData,
+		pathSymbol, wallSymbol, destSymbol, obstacleSymbol, visitedSymbol, queuedSymbol,
+		symbolA, symbolB, symbolC, symbolD,
+		obstacleList
+	}
 }

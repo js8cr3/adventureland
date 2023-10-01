@@ -1,9 +1,9 @@
-const adventurelandUtils = require_code('adventurelandUtils');
-const getNearestMonsterInsideBoundary = adventurelandUtils.getNearestMonsterInsideBoundary;
-const getAggressiveMonster = adventurelandUtils.getAggressiveMonster;
+module.exports = load_combat();
 
-module.exports = { misc, mage, priest, warrior, warriorMove };
-
+async function load_combat() {
+	const { getNearestMonsterInsideBoundary, getAggressiveMonster } = await require_code('adventurelandUtils');
+	return { misc, mage, priest, warrior, warriorMove };
+}
 
 function misc() {
     if(!is_on_cooldown('use_hp')) {

@@ -1,23 +1,22 @@
-const settings = require_code('settings');
-const utils = require_code('utils');
-const fill = require_code('fill');
-const bfsGrid = require_code('bfsGrid');
+module.exports = load_aggroKiteStrategy();
 
-const symbolA = settings.symbolA;
-const symbolB = settings.symbolB;
-const symbolC = settings.symbolC;
-const symbolD = settings.symbolD;
-const pathSymbol = settings.pathSymbol;
-const wallSymbol = settings.wallSymbol;
-const destSymbol = settings.destSymbol;
-const obstacleSymbol = settings.obstacleSymbol;
+async function load_aggroKiteStrategy() {
 
-const randomNum = utils.randomNum;
-const withinRange = utils.withinRange;
+	const [
+		{ symbolA, symbolB, symbolC, symbolD, pathSymbol, wallSymbol, destSymbol, obstacleSymbol },
+		{ randomNum, withinRange, closestCellToCenter }, 
+		fill,
+		bfsGrid
+	] = await Promise.all([
+		require_code('settings'),
+		require_code('utils'),
+		require_code('fill'),
+		require_code('bfsGrid')
+	]);
 
-const closestCellToCenter = utils.closestCellToCenter;
+	return aggroKiteStrategy;
 
-module.exports = aggroKiteStrategy;
+}
 
 function aggroKiteStrategy(grid, start, range) {
 

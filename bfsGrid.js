@@ -1,15 +1,19 @@
-const settings = require_code('settings');
-const utils = require_code('utils');
+module.exports = load_bfsGrid();
 
-const wallSymbol = settings.wallSymbol;
-const destSymbol = settings.destSymbol;
-const pathSymbol = settings.pathSymbol;
-const visitedSymbol = settings.visitedSymbol;
-const queuedSymbol = settings.queuedSymbol;
+async function load_bfsGrid() {
 
-const simplifyGridPath = utils.simplifyGridPath;
+	const [
+		{ wallSymbol, destSymbol, pathSymbol, visitedSymbol, queuedSymbol },
+		{ simplifyGridPath }
+	] = await Promise.all([
+		require_code('settings'),
+		require_code('utils')
+	])
 
-module.exports = bfsGrid;
+	return bfsGrid;
+
+};
+
 
 function bfsGrid(grid, s /* start */) {
 

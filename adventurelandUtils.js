@@ -1,8 +1,14 @@
-module.exports = {
-	getMonstersByType,
-	getAggressiveMonster,
-	getMonsterBoundary,
-	getNearestMonsterInsideBoundary
+module.exports = load_adventurelandUtils();
+
+async function load_adventurelandUtils() {
+
+	return {
+		getMonstersByType,
+		getAggressiveMonster,
+		getMonsterBoundary,
+		getNearestMonsterInsideBoundary
+	}
+
 }
 
 function getMonsterBoundary(monsterType, map, skip) {

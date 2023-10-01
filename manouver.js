@@ -1,4 +1,4 @@
-module.exports = load_manouver;
+module.exports = load_manouver();
 
 async function load_manouver() {
 

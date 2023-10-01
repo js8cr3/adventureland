@@ -1,10 +1,14 @@
-module.exports = {
-	retreatToSafety, 
-	mageHandleDeath, 
-	nonMageHandleDeath, 
-	teleportToSpot,
-	requestMagiport,
-	handleMagiportRequest
+module.exports = load_nonCombat();
+
+async function load_nonCombat() {
+	return {
+		retreatToSafety, 
+		mageHandleDeath, 
+		nonMageHandleDeath, 
+		teleportToSpot,
+		requestMagiport,
+		handleMagiportRequest
+	}
 }
 
 

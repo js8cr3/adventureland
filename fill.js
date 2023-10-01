@@ -1,9 +1,9 @@
-const settings = require_code('settings');
+module.exports = load_fill();
 
-const visitedSymbol = settings.visitedSymbol;
-const queuedSymbol = settings.queuedSymbol;
-
-module.exports = fill;
+async function load_fill() {
+	const { visitedSymbol, queuedSymbol } = await require('settings');
+	return fill;
+}
 
 function fill(grid, s /* point in area */, path) {
 

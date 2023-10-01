@@ -1,14 +1,18 @@
-const utils = require_code('utils');
-const settings = require_code('settings');
+module.exports = load_drawPathfinding();
 
-const symbolA = settings.symbolA;
-const symbolB = settings.symbolB;
-const symbolC = settings.symbolC;
-const symbolD = settings.symbolD;
-const destSymbol = settings.destSymbol;
-const transformGridPathToCoor = utils.transformGridPathToCoor
+async function load_drawPathfinding() {
 
-module.exports = drawPathfinding;
+	const [
+		{ symbolA, symbolB, symbolC, symbolD, destSymbol },
+		{ transformGridPathToCoor }
+	] = await Promise.all([
+		require_code('utils'),
+		require_code('settings')
+	]);
+
+	return drawPathfinding;
+
+}
 
 function drawPathfinding(pathfindGrid, path) {
 

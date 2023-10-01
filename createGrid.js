@@ -1,4 +1,8 @@
-module.exports = createGrid;
+module.exports = load_createGrid();
+
+async function load_createGrid() {
+	return createGrid;
+}
 
 function createGrid(nodes) {
 	// nodes: {x: Number, y: Number, w: String}
