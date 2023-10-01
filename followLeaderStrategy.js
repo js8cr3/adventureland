@@ -1,24 +1,22 @@
-const settings = require_code('settings');
-const utils = require_code('utils');
-const fill = require_code('fill');
-const bfs = require_code('bfsGrid');
+module.exports = load_followLeaderStrategy();
 
-const symbolA = settings.symbolA;
-const symbolB = settings.symbolB;
-const symbolC = settings.symbolC;
-const symbolD = settings.symbolD;
-const pathSymbol = settings.pathSymbol;
-const wallSymbol = settings.wallSymbol;
-const destSymbol = settings.destSymbol;
-const obstacleSymbol = settings.obstacleSymbol;
+async function load_followLeaderStrategy() {
 
-const randomNum = utils.randomNum;
-const withinRange = utils.withinRange;
-const translatePositionToGridCoor = utils.translatePositionToGridCoor;
+	const [
+		{ symbolA, symbolB, symbolC, symbolD, pathSymbol, wallSymbol, destSymbol, obstacleSymbol },
+		{ randomNum, withinRange, translatePositionToGridCoor, closestCellToTarget },
+		fill,
+		bfsGrid
+	] = await Promise.all( [
+		require_code('settings'),
+		require_code('utils'),
+		require_code('fill'),
+		require_code('bfsGrid')
+	] )
+	
+	return followLeaderStrategy;
 
-const closestCellToTarget = utils.closestCellToTarget;
-
-module.exports = followLeaderStrategy;
+}
 
 function followLeaderStrategy(grid, start, boundary, gridUnit) {
 

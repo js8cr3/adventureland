@@ -1,18 +1,22 @@
-module.exports = {
-	randomNum, 
-	withinBoundary2D,
-	withinSquareRange,
-	withinRange,
-	transformGridPathToCoor,
-	translatePositionToGridCoor,
-	simplifyGridPath,
-	markObstacles,
-	markCorners,
-	closestCellToTarget,
-	closestCellToCenter,
-	initializeNodes,
-	consoleDisplayGrid
-};
+module.exports = load_utils();
+
+async function load_utils() {
+	return {
+		randomNum, 
+		withinBoundary2D,
+		withinSquareRange,
+		withinRange,
+		transformGridPathToCoor,
+		translatePositionToGridCoor,
+		simplifyGridPath,
+		markObstacles,
+		markCorners,
+		closestCellToTarget,
+		closestCellToCenter,
+		initializeNodes,
+		consoleDisplayGrid
+	};
+}
 
 function randomNum(min, max) {
     const diff = max - min;
