@@ -4,7 +4,6 @@ async function load_nonCombat() {
 	return {
 		retreatToSafety, 
 		handleDeath, 
-		nonMageHandleDeath, 
 		teleportToSpot,
 		requestMagiport,
 		handleMagiportRequest
