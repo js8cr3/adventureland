@@ -38,7 +38,7 @@ function getMonstersByType(type) {
 	for(const id in parent.entities) {
 		const entity = parent.entities[id];
 		if(entity.type !== 'monster') continue;
-		if(entity.mtype !== monsterData[0]) continue;
+		if(entity.mtype !== type) continue;
 		array.push(entity)
 	}   
 	return array;
