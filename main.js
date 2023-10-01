@@ -5,14 +5,14 @@ const adventurelandUtils = require_code('adventurelandUtils');
 const utils = require_code('utils');
 const settings = require_code('settings');
 
-const monsterData = settings.monsterData;
+//const monsterData = settings.monsterData;
 const getMonsterBoundary = adventurelandUtils.getMonsterBoundary;
 const initializeNodes = utils.initializeNodes;
 const withinBoundary2D = utils.withinBoundary2D;
 const symbolA = settings.symbolA;
 const gridUnit = settings.gridUnit;
 
-log(monsterData);
+//log(monsterData);
 //const monsterBoundary = getMonsterBoundary(...monsterData);
 const monsterBoundary = getMonsterBoundary('wolfie', 'winterland');
 monsterBoundary[0] -= gridUnit * 2;
