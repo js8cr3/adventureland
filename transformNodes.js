@@ -1,4 +1,4 @@
-module.exports = transformNodes();
+module.exports = load_transformNodes();
 
 async function load_transformNodes() {
 
