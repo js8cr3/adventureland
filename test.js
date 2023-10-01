@@ -1,2 +1,3 @@
-module.exports = 'successsss000';
-log('loadddddddddddedd');
+const settings = require_code('settings')
+const monsterData = settings.monsterData;
+log('check: '+monsterData);
