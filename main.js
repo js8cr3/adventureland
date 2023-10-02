@@ -28,7 +28,7 @@ async function main() {
 	const priestName = 'Stool'
 	const partyList = ['Desk', 'Stool', 'Shelf'];
 
-	function on_magiport(name) {
+	on_magiport = (name) => {
 		if(name !== mageName) return;
 		accept_magiport(name);
 		character.combatState = 'ready';
@@ -43,7 +43,7 @@ async function main() {
 		
 		mageMain();
 		
-		function on_cm(name, data) {
+		on_cm = (name, data) => {
 			const partyNameList = partyList;
 			let isPartyMember = false;
 			for(const memberName of partyNameList) {
