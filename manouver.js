@@ -4,7 +4,7 @@ async function load_manouver() {
 
 	const [
 		{ followLeaderStrategy, aggroKiteStrategy },
-		{ createGrid, transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
+		{ randomNum, createGrid, transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
 		{ gridUnit, obstacleSymbol, obstacleList, symbolB },
 		transformNodes,
 		drawPathfinding
