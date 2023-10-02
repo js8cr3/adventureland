@@ -31,7 +31,10 @@ async function main() {
 	on_magiport = (name) => {
 		if(name !== mageName) return;
 		accept_magiport(name);
-		character.combatState = 'ready';
+		setTimeout( () => {
+			if(!get_player(name)) return;
+			character.combatState = 'ready';
+		}, 3000);
 	};
 
 
@@ -77,8 +80,10 @@ async function main() {
 
 	async function mageMain() {
 		nonCombat.handleMagiportRequest(partyList);
+		const priest = get_player(priestName)
 		if( 
-			get_player(priestName)&&
+			priest&&
+			!priest.rip&&
 			withinBoundary2D(character, monsterBoundary) 
 		) {
 			character.combatState = 'active';
@@ -143,7 +148,8 @@ async function main() {
 						combat.misc();
 					}, 500 ),
 					setInterval( () => {
-						if(get_player(priestName)) character.combatState = 'active';
+						const priest = get_player(priestName);
+						if(priest && !priest.rip) character.combatState = 'active';
 					}, 1000)
 				]
 				break;
@@ -229,7 +235,8 @@ async function main() {
 						combat.misc();
 					}, 500 ),
 					setInterval( () => {
-						if(get_player(priestName))character.combatState = 'active';
+						const priest = get_player(priestName)
+						if(priest && !priest.rip)character.combatState = 'active';
 					}, 1000)
 				]
 				break;

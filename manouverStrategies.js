@@ -198,7 +198,7 @@ async function load_manouverStrategies() {
 
 			const setDestinationToTarget = () => {
 				const follow = get_player('Stool');
-				if(!follow) {
+				if(!follow || follow?.rip) {
 					return 'target to follow does not exist';
 				}
 				const targetCoor = translatePositionToGridCoor([follow.x, follow.y], boundary, gridUnit);

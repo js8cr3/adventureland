@@ -12,7 +12,7 @@ async function load_drawPathfinding() {
 
 	return drawPathfinding;
 
-	function drawPathfinding(pathfindGrid, path) {
+	function drawPathfinding(pathfindGrid, path, monsterBoundary) {
 
 		// draw grid 
 		

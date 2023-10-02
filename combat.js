@@ -51,7 +51,7 @@ async function load_combat() {
 			if(target.target && target.target !== character.name) change_target();
 			return
 		}
-		if(character.hp < character.max_hp * 0.6) {
+		if(!is_on_cooldown('attack') && character.hp < character.max_hp * 0.6) {
 			heal(character);
 			return;
 		}
