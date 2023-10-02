@@ -20,6 +20,9 @@ async function load_manouver() {
 
 	function manouver(nodes, boundary, strategyType) {
 
+		let drawEnabled;
+		if(character.name === 'Stool') drawEnabled = true;
+
 		// strategyType: 'aggroKiteStrategy', 'followLeaderStrategy'
 		if( strategyType !== 'aggroKiteStrategy' && strategyType !== 'followLeaderStrategy' ) throw new Error('No valid strategy given');
 		if(!nodes) throw new Error('No nodes given');
@@ -56,7 +59,7 @@ async function load_manouver() {
 			gridPath = followLeaderStrategy(pathfindGrid, start, boundary, gridUnit)
 		}
 		 
-		//	if(character.password === 'draw') drawPathfinding(pathfindGrid);
+		if(drawEnabled) drawPathfinding(pathfindGrid);
 		
 		if(gridPath === 'stuck in obstacle') {
 			move(character.x + randomNum(-30, 30), character.y + randomNum(-30, 30));
@@ -81,7 +84,7 @@ async function load_manouver() {
 		}
 
 		moveByPath();
-		//	drawPathfinding(null, pathToDestination);
+		if(drawEnabled) drawPathfinding(null, pathToDestination);
 
 	}
 

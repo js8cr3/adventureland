@@ -125,6 +125,13 @@ function transformGridPathToCoor(pathArray, boundary, gridUnit) {
 }
 
 function translatePositionToGridCoor(position, boundary, gridUnit) {
+
+	if( 
+		position[0] < boundary[0] || 
+		position[0] > boundary[2] || 
+		position[1] < boundary[1] || 
+		position[1] > boundary[3] 
+	) return ;
 	
 	// find which cell is closest to position on 1D line
 	const closestInLine = (pos, startingPoint, limit) => {
