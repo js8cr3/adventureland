@@ -16,6 +16,8 @@ async function main() {
 		require_code('settings')
 	] );
 
+	log('main loaded');
+
 	const monsterBoundary = getMonsterBoundary(...monsterData);
 	monsterBoundary[0] -= gridUnit * 2;
 	monsterBoundary[2] += gridUnit * 4;
