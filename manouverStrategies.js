@@ -135,7 +135,7 @@ async function load_manouverStrategies() {
 
 		// possible values:
 			// 'startType error'
-			// bfs()
+			// bfsGrid()
 			// 'stuck in obstacle'
 
 		let deep = structuredClone(grid);
@@ -216,7 +216,7 @@ async function load_manouverStrategies() {
 				setDestinationToTarget();
 			}
 
-			let pathToDestination = bfs(deep, start);
+			let pathToDestination = bfsGrid(deep, start);
 			if(pathToDestination === 'no path') return 'no path';
 			//utils.consoleDisplayGrid(deep);
 
