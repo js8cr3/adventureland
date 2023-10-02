@@ -4,7 +4,7 @@ async function load_manouverStrategies() {
 
 	const [
 		{ symbolA, symbolB, symbolC, symbolD, pathSymbol, wallSymbol, destSymbol, obstacleSymbol },
-		{ randomNum, withinRange, translatePositionToGridCoor, closestCellToCenter }, 
+		{ randomNum, withinRange, translatePositionToGridCoor, closestCellToTarget, closestCellToCenter }, 
 		fill,
 		bfsGrid
 	] = await Promise.all([
