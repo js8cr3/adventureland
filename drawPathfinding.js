@@ -6,8 +6,8 @@ async function load_drawPathfinding() {
 		{ gridUnit, symbolA, symbolB, symbolC, symbolD, destSymbol },
 		{ transformGridPathToCoor }
 	] = await Promise.all([
-		require_code('utils'),
-		require_code('settings')
+		require_code('settings'),
+		require_code('utils')
 	]);
 
 	return drawPathfinding;
