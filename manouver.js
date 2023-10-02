@@ -9,7 +9,6 @@ async function load_manouver() {
 		transformNodes,
 		drawPathfinding
 	] = await Promise.all( [ 
-		require_code('createGrid'),
 		require_code('manouverStrategies'),
 		require_code('utils'),
 		require_code('settings'),
