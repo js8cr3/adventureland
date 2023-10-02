@@ -59,7 +59,7 @@ async function load_manouver() {
 			gridPath = followLeaderStrategy(pathfindGrid, start, boundary, gridUnit)
 		}
 		 
-		if(drawEnabled) drawPathfinding(pathfindGrid, null, monsterBoundary);
+		if(drawEnabled) drawPathfinding(pathfindGrid, null, boundary);
 		
 		if(gridPath === 'stuck in obstacle') {
 			move(character.x + randomNum(-30, 30), character.y + randomNum(-30, 30));
@@ -84,7 +84,7 @@ async function load_manouver() {
 		}
 
 		moveByPath();
-		if(drawEnabled) drawPathfinding(null, pathToDestination, monsterBoundary);
+		if(drawEnabled) drawPathfinding(null, pathToDestination, boundary);
 
 	}
 
