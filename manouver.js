@@ -3,9 +3,8 @@ module.exports = load_manouver();
 async function load_manouver() {
 
 	const [
-		createGrid,
 		{ followLeaderStrategy, aggroKiteStrategy },
-		{ transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
+		{ createGrid, transformGridPathToCoor, translatePositionToGridCoor, markObstacles, consoleDisplayGrid, markCorners },
 		{ gridUnit, obstacleSymbol, obstacleList, symbolB },
 		transformNodes,
 		drawPathfinding
