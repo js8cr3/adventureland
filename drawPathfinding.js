@@ -3,7 +3,7 @@ module.exports = load_drawPathfinding();
 async function load_drawPathfinding() {
 
 	const [
-		{ symbolA, symbolB, symbolC, symbolD, destSymbol },
+		{ gridUnit, symbolA, symbolB, symbolC, symbolD, destSymbol },
 		{ transformGridPathToCoor }
 	] = await Promise.all([
 		require_code('utils'),
